@@ -1,18 +1,21 @@
 (function () {
   const shadowRoot = document.currentScript.getRootNode();
 
-  // Delay execution to allow embed.js to inject DOM
-  setTimeout(() => {
+  const waitForElements = () => {
     const input = shadowRoot.querySelector('#userInput');
     const sendBtn = shadowRoot.querySelector('#sendBtn');
     const messages = shadowRoot.querySelector('#messages');
 
-    // Safety check
-    if (!input || !sendBtn || !messages) {
-      console.error("❌ Rebellion Chatbot: Could not find required elements inside Shadow DOM.");
-      return;
+    if (input && sendBtn && messages) {
+      // We’re ready to roll
+      initChat(input, sendBtn, messages);
+      return true;
     }
 
+    return false;
+  };
+
+  const initChat = (input, sendBtn, messages) => {
     function appendMessage(text, sender, isTyping = false) {
       const msg = document.createElement('div');
       msg.className = `msg ${sender}`;
@@ -54,10 +57,18 @@
       }
     }
 
-    // Event listeners
     sendBtn.addEventListener('click', sendMessage);
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
-  }, 50); // delay ensures DOM injection has completed
+  };
+
+  // Watch for the chatbox content to be injected
+  const observer = new MutationObserver(() => {
+    if (waitForElements()) {
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(shadowRoot, { childList: true, subtree: true });
 })();
