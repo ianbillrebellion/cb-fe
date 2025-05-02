@@ -6,7 +6,7 @@ document.body.appendChild(launcher);
 
 const iframe = document.createElement("iframe");
 iframe.id = "ai-chat-frame";
-iframe.src = "https://your-netlify-site.netlify.app/index.html"; // replace this
+iframe.src = "https://velvety-pony-26f793.netlify.app/index.html";
 document.body.appendChild(iframe);
 
 launcher.onclick = () => {
