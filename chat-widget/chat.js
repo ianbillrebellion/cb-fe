@@ -1,0 +1,48 @@
+const webhookUrl = "https://your-n8n-domain.com/webhook/ai-agent"; // replace this
+
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  appendMessage(text, "user");
+  input.value = "";
+
+  appendMessage("Typing...", "bot", true);
+
+  try {
+    const res = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: text,
+        session_id: "demo-session-1"
+      })
+    });
+    const data = await res.json();
+    removeTypingIndicator();
+    appendMessage(data.reply || "No response.", "bot");
+  } catch (err) {
+    removeTypingIndicator();
+    appendMessage("Error reaching the AI agent.", "bot");
+    console.error(err);
+  }
+}
+
+function appendMessage(text, sender, isTyping = false) {
+  const msg = document.createElement("div");
+  msg.className = `msg ${sender}`;
+  msg.textContent = text;
+  msg.dataset.typing = isTyping;
+  document.getElementById("messages").appendChild(msg);
+  scrollMessages();
+}
+
+function removeTypingIndicator() {
+  document.querySelectorAll('[data-typing="true"]').forEach(el => el.remove());
+}
+
+function scrollMessages() {
+  const msgBox = document.getElementById("messages");
+  msgBox.scrollTop = msgBox.scrollHeight;
+}
