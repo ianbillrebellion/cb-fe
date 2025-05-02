@@ -1,11 +1,17 @@
 (function () {
   const shadowRoot = document.currentScript.getRootNode();
 
-  // Wait for elements to exist before running logic
+  // Delay execution to allow embed.js to inject DOM
   setTimeout(() => {
     const input = shadowRoot.querySelector('#userInput');
     const sendBtn = shadowRoot.querySelector('#sendBtn');
     const messages = shadowRoot.querySelector('#messages');
+
+    // Safety check
+    if (!input || !sendBtn || !messages) {
+      console.error("❌ Rebellion Chatbot: Could not find required elements inside Shadow DOM.");
+      return;
+    }
 
     function appendMessage(text, sender, isTyping = false) {
       const msg = document.createElement('div');
@@ -48,9 +54,10 @@
       }
     }
 
+    // Event listeners
     sendBtn.addEventListener('click', sendMessage);
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
-  }, 50); // small delay to wait for embed.js to inject HTML
+  }, 50); // delay ensures DOM injection has completed
 })();
