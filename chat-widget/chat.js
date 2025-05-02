@@ -1,48 +1,14 @@
-const webhookUrl = "https://your-n8n-domain.com/webhook/ai-agent"; // replace this
+// Rebellion Chat Launcher Script
+const launcher = document.createElement("div");
+launcher.id = "ai-chat-launcher";
+launcher.innerHTML = "💬";
+document.body.appendChild(launcher);
 
-async function sendMessage() {
-  const input = document.getElementById("userInput");
-  const text = input.value.trim();
-  if (!text) return;
+const iframe = document.createElement("iframe");
+iframe.id = "ai-chat-frame";
+iframe.src = "https://your-netlify-site.netlify.app/index.html"; // replace this
+document.body.appendChild(iframe);
 
-  appendMessage(text, "user");
-  input.value = "";
-
-  appendMessage("Typing...", "bot", true);
-
-  try {
-    const res = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: text,
-        session_id: "demo-session-1"
-      })
-    });
-    const data = await res.json();
-    removeTypingIndicator();
-    appendMessage(data.reply || "No response.", "bot");
-  } catch (err) {
-    removeTypingIndicator();
-    appendMessage("Error reaching the AI agent.", "bot");
-    console.error(err);
-  }
-}
-
-function appendMessage(text, sender, isTyping = false) {
-  const msg = document.createElement("div");
-  msg.className = `msg ${sender}`;
-  msg.textContent = text;
-  msg.dataset.typing = isTyping;
-  document.getElementById("messages").appendChild(msg);
-  scrollMessages();
-}
-
-function removeTypingIndicator() {
-  document.querySelectorAll('[data-typing="true"]').forEach(el => el.remove());
-}
-
-function scrollMessages() {
-  const msgBox = document.getElementById("messages");
-  msgBox.scrollTop = msgBox.scrollHeight;
-}
+launcher.onclick = () => {
+  iframe.style.display = iframe.style.display === "none" ? "block" : "none";
+};
