@@ -1,68 +1,10 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
+/* Root reset */
+:host {
+  all: initial;
 }
 
-#chatbox {
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  padding: 15px;
-  background: #1e1e1e;
-  border-radius: 10px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-#messages {
-  flex-grow: 1;
-  overflow-y: auto;
-  margin-bottom: 10px;
-}
-
-.msg {
-  margin: 8px 0;
-  line-height: 1.5;
-}
-
-.user {
-  text-align: right;
-  color: #C6FF00;
-}
-
-.bot {
-  text-align: left;
-  color: #ddd;
-}
-
-#inputRow {
-  display: flex;
-  gap: 10px;
-}
-
-input {
-  flex: 1;
-  padding: 10px;
-  background: #2c2c2c;
-  color: #fff;
-  border: 1px solid #444;
-  border-radius: 5px;
-}
-
-button {
-  padding: 10px 15px;
-  background: #1173BA;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Floating bubble */
-#ai-chat-launcher {
+/* Chat launcher */
+#launcher {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -76,19 +18,84 @@ button {
   line-height: 60px;
   cursor: pointer;
   z-index: 9999;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Chat frame */
-#ai-chat-frame {
+/* Chat box container */
+#chatbox {
   position: fixed;
   bottom: 90px;
   right: 20px;
   width: 420px;
-  height: 580px;
-  border: none;
-  border-radius: 20px;
+  height: 550px;
+  background: #1e1e1e;
+  border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  display: none;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
   z-index: 9998;
+  box-sizing: border-box;
+}
+
+/* Chat messages */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 4px;
+  font-size: 14px;
+}
+
+.msg {
+  margin: 8px 0;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.user {
+  background: #1173BA;
+  align-self: flex-end;
+  color: white;
+  text-align: right;
+  margin-left: auto;
+}
+
+.bot {
+  background: #333;
+  align-self: flex-start;
+  color: #C6FF00;
+  text-align: left;
+  margin-right: auto;
+}
+
+/* Input + Send */
+#inputRow {
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  background: #2c2c2c;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 16px;
+  background: #1173BA;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
 }
