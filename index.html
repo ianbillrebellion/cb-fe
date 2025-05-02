@@ -2,8 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Chat</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: transparent;
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 </head>
 <body>
   <div id="chatbox">
@@ -13,6 +23,7 @@
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
+
   <script>
     const webhookUrl = "https://your-n8n-domain.com/webhook/ai-agent"; // replace this
 
