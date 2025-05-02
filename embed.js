@@ -3,14 +3,8 @@ class RebellionChatbot extends HTMLElement {
       super();
       const shadow = this.attachShadow({ mode: 'open' });
   
-      // Attach CSS
-      const style = document.createElement('link');
-      style.rel = 'stylesheet';
-      style.href = 'https://velvety-pony-26f793.netlify.app/style.css';
-      shadow.appendChild(style);
-  
-      // Add chatbox structure
-      shadow.innerHTML += `
+      // Add chatbox structure first
+      shadow.innerHTML = `
         <div id="launcher">💬</div>
         <div id="chatbox" style="display: none;">
           <div id="messages"></div>
@@ -21,14 +15,18 @@ class RebellionChatbot extends HTMLElement {
         </div>
       `;
   
+      // Attach CSS *after* innerHTML is written
+      const style = document.createElement('link');
+      style.rel = 'stylesheet';
+      style.href = 'https://velvety-pony-26f793.netlify.app/style.css';
+      shadow.appendChild(style);
+  
       // Toggle chatbox open/close
-      setTimeout(() => {
-        const launcher = shadow.querySelector('#launcher');
-        const chatbox = shadow.querySelector('#chatbox');
-        launcher.addEventListener('click', () => {
-          chatbox.style.display = chatbox.style.display === 'none' ? 'flex' : 'none';
-        });
-      }, 100);
+      const launcher = shadow.querySelector('#launcher');
+      const chatbox = shadow.querySelector('#chatbox');
+      launcher.addEventListener('click', () => {
+        chatbox.style.display = chatbox.style.display === 'none' ? 'flex' : 'none';
+      });
   
       // Load chat logic
       const script = document.createElement('script');
