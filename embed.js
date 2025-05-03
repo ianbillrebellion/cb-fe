@@ -3,17 +3,8 @@ class RebellionChatbot extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
 
-    // 🔒 Temporary anti-flash style (removed on first frame)
-    const preloadStyle = document.createElement('style');
-    preloadStyle.textContent = `
-      #chatbox {
-        display: none !important;
-      }
-    `;
-    shadow.appendChild(preloadStyle);
-
-    // ✅ Chatbox structure
-    shadow.innerHTML += `
+    // ✅ Chatbox structure FIRST — no +=!
+    shadow.innerHTML = `
       <div id="launcher">💬</div>
       <div id="chatbox" class="hidden">
         <div id="chatHeader">
@@ -31,10 +22,19 @@ class RebellionChatbot extends HTMLElement {
       </div>
     `;
 
-    // 🧼 Remove preload blocker after first paint
+    // ✅ Now safely add anti-flash style
+    const preloadStyle = document.createElement('style');
+    preloadStyle.textContent = `
+      #chatbox {
+        display: none !important;
+      }
+    `;
+    shadow.appendChild(preloadStyle);
+
+    // ✅ Remove it once DOM is ready
     requestAnimationFrame(() => {
       shadow.removeChild(preloadStyle);
-  });
+    });
 
     // ✅ Attach CSS
     const style = document.createElement('link');
@@ -56,7 +56,6 @@ class RebellionChatbot extends HTMLElement {
       const refreshBtn = shadow.querySelector('#refreshBtn');
       const messages = shadow.querySelector('#messages');
 
-      // Launcher toggle
       launcher.addEventListener('click', () => {
         if (chatbox.classList.contains('visible')) {
           chatbox.classList.remove('visible');
@@ -67,13 +66,11 @@ class RebellionChatbot extends HTMLElement {
         }
       });
 
-      // Close button
       closeBtn?.addEventListener('click', () => {
         chatbox.classList.remove('visible');
         chatbox.classList.add('hidden');
       });
 
-      // Refresh button
       refreshBtn?.addEventListener('click', () => {
         messages.innerHTML = '';
       });
