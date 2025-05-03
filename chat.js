@@ -50,7 +50,10 @@
         console.log('[chatbot] Parsed response:', data);
 
         removeTyping();
-        appendMessage(data.reply || 'No response.', 'bot');
+        let replyText = typeof data.reply === 'string' 
+          ? data.reply 
+          : data.reply?.output || 'No response.';
+        appendMessage(replyText, 'bot');
 
       } catch (err) {
         removeTyping();
