@@ -3,6 +3,7 @@
   all: initial;
 }
 
+/* Header */
 #chatHeader {
   background: #1173BA;
   color: white;
@@ -32,7 +33,7 @@
   opacity: 0.7;
 }
 
-/* Chat launcher */
+/* Launcher button */
 #launcher {
   position: fixed;
   bottom: 20px;
@@ -50,34 +51,43 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Chat box container */
+/* Chatbox with animation */
 #chatbox {
   position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 420px;
-  height: 550px;
+  bottom: 100px;
+  right: 30px;
+  width: 400px;
+  height: 520px;
   background: #1e1e1e;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  color: white;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  color: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+  overflow: hidden;
+  transform: scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
   font-family: 'Poppins', sans-serif;
   z-index: 9998;
-  box-sizing: border-box;
+}
+
+#chatbox.visible {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Chat messages */
 #messages {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 12px;
-  padding-right: 4px;
+  padding: 16px;
   font-size: 14px;
 }
 
+/* Bubbles */
 .msg {
   margin: 8px 0;
   line-height: 1.5;
@@ -103,10 +113,12 @@
   margin-right: auto;
 }
 
-/* Input + Send */
+/* Input and Send Row */
 #inputRow {
   display: flex;
   gap: 8px;
+  padding: 12px;
+  background: #111;
 }
 
 input {
@@ -127,29 +139,4 @@ button {
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
-}
-
-#chatbox {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  width: 320px;
-  height: 420px;
-  background: #1e1e1e;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  border-radius: 16px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
-  overflow: hidden;
-  transform: scale(0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-#chatbox.visible {
-  transform: scale(1);
-  opacity: 1;
-  pointer-events: auto;
 }
