@@ -24,13 +24,13 @@
       messages.querySelectorAll('[data-typing="true"]').forEach(el => el.remove());
     }
 
-    async function sendMessage() {
-      const text = input.value.trim();
+    async function sendMessage(customText = null, suppressUser = false) {
+      const text = customText || input.value.trim();
       if (!text) return;
 
       console.log('[chatbot] Sending message:', text);
 
-      appendMessage(text, 'user');
+      if (!suppressUser) appendMessage(text, 'user');
       input.value = '';
       appendMessage('Typing...', 'bot', true);
 
@@ -45,7 +45,7 @@
         });
 
         console.log('[chatbot] Status:', res.status);
-        const data = await res.json(); // ✅ Directly parse JSON
+        const data = await res.json();
 
         console.log('[chatbot] Parsed response:', data);
 
@@ -62,9 +62,12 @@
       }
     }
 
-    sendBtn.addEventListener('click', sendMessage);
+    sendBtn.addEventListener('click', () => sendMessage());
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
+
+    // ✅ Global hook for embed.js
+    window.rebellionSend = (text) => sendMessage(text, true);
   }
 })();

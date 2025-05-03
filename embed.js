@@ -65,24 +65,16 @@ class RebellionChatbot extends HTMLElement {
       launcher.addEventListener('click', () => {
         chatbox.classList.toggle('visible');
         chatbox.classList.toggle('hidden');
-
-        // Run this ONLY when chat is first opened
+      
         if (!hasStarted && chatbox.classList.contains('visible')) {
-          const input = shadow.querySelector('#userInput');
-
-          if (input) {
-            const sendMessage = () => {
-              const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-              input.value = 'getStarted';
-              input.dispatchEvent(enterEvent);
+          setTimeout(() => {
+            if (typeof window.rebellionSend === 'function') {
+              window.rebellionSend('getStarted');
               hasStarted = true;
-            };
-
-            // Delay to let chat.js load
-            setTimeout(sendMessage, 200);
-          }
+            }
+          }, 300);
         }
-      });
+      });    
 
       closeBtn?.addEventListener('click', () => {
         chatbox.classList.remove('visible');
