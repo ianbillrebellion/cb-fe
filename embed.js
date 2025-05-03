@@ -38,14 +38,14 @@ class RebellionChatbot extends HTMLElement {
     
       // Toggle open/close from launcher icon
       launcher.addEventListener('click', () => {
-        chatbox.classList.toggle('visible');
-      });
-    
-      // Close button hides the chatbox
-      launcher.addEventListener('click', () => {
-        chatbox.classList.remove('hidden');  // remove the hidden class if it’s still there
-        chatbox.classList.toggle('visible'); // toggle visibility
-      });
+        if (chatbox.classList.contains('visible')) {
+          chatbox.classList.remove('visible');
+          chatbox.classList.add('hidden');
+        } else {
+          chatbox.classList.remove('hidden');
+          chatbox.classList.add('visible');
+        }
+      });  
     
       // Refresh button clears all messages
       refreshBtn?.addEventListener('click', () => {
