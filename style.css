@@ -73,7 +73,6 @@
   overflow: hidden;
   transform: scale(0.5);
   opacity: 0;
-  visibility: hidden; /* 👈 Add this line here */
   pointer-events: none;
   transition: all 0.3s ease;
   font-family: 'Poppins', sans-serif;

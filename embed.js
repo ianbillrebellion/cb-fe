@@ -3,7 +3,7 @@ class RebellionChatbot extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
 
-    // ✅ Chatbox structure FIRST — no +=!
+    // 1. Chatbox structure (HTML first)
     shadow.innerHTML = `
       <div id="launcher">💬</div>
       <div id="chatbox" class="hidden">
@@ -22,33 +22,37 @@ class RebellionChatbot extends HTMLElement {
       </div>
     `;
 
-    // ✅ Now safely add anti-flash style
+    // 2. Anti-flicker preload style (no display:none)
     const preloadStyle = document.createElement('style');
     preloadStyle.textContent = `
       #chatbox {
-        display: none !important;
+        opacity: 0;
+        transform: scale(0.5);
+        pointer-events: none;
       }
     `;
     shadow.appendChild(preloadStyle);
 
-    // ✅ Remove it once DOM is ready
-    requestAnimationFrame(() => {
-      shadow.removeChild(preloadStyle);
-    });
-
-    // ✅ Attach CSS
+    // 3. Attach external CSS
     const style = document.createElement('link');
     style.rel = 'stylesheet';
     style.href = 'https://velvety-pony-26f793.netlify.app/style.css';
     shadow.appendChild(style);
 
-    // ✅ Load chat logic (e.g. sendMessage, etc.)
+    // 4. After style loads, remove preload
+    style.onload = () => {
+      requestAnimationFrame(() => {
+        preloadStyle.remove();
+      });
+    };
+
+    // 5. Load chat logic
     const script = document.createElement('script');
     script.src = 'https://velvety-pony-26f793.netlify.app/chat.js';
     script.type = 'module';
     shadow.appendChild(script);
 
-    // ✅ Event handling
+    // 6. Toggle behavior
     setTimeout(() => {
       const launcher = shadow.querySelector('#launcher');
       const chatbox = shadow.querySelector('#chatbox');
@@ -57,13 +61,8 @@ class RebellionChatbot extends HTMLElement {
       const messages = shadow.querySelector('#messages');
 
       launcher.addEventListener('click', () => {
-        if (chatbox.classList.contains('visible')) {
-          chatbox.classList.remove('visible');
-          chatbox.classList.add('hidden');
-        } else {
-          chatbox.classList.remove('hidden');
-          chatbox.classList.add('visible');
-        }
+        chatbox.classList.toggle('visible');
+        chatbox.classList.toggle('hidden');
       });
 
       closeBtn?.addEventListener('click', () => {
