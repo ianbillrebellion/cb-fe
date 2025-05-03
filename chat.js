@@ -38,7 +38,7 @@
       appendMessage('Typing...', 'bot', true);
 
       try {
-        const res = await fetch('https://your-n8n-server.com/webhook/ai-agent', {
+        const res = await fetch('https://autom8.rebellionwebsites.com/webhook-test/f7db3ac1-8e20-4e47-bf05-36f66ded98bf', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
