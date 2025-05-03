@@ -6,7 +6,7 @@ class RebellionChatbot extends HTMLElement {
     // Add chatbox structure
     shadow.innerHTML = `
       <div id="launcher">💬</div>
-      <div id="chatbox"
+      <div id="chatbox" class="hidden">
         <div id="chatHeader">
           Rebellion AI
           <div class="controls">
@@ -42,8 +42,9 @@ class RebellionChatbot extends HTMLElement {
       });
     
       // Close button hides the chatbox
-      closeBtn?.addEventListener('click', () => {
-        chatbox.classList.remove('visible');
+      launcher.addEventListener('click', () => {
+        chatbox.classList.remove('hidden');  // remove the hidden class if it’s still there
+        chatbox.classList.toggle('visible'); // toggle visibility
       });
     
       // Refresh button clears all messages
