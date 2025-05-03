@@ -3,15 +3,6 @@ class RebellionChatbot extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
 
-    // 🔒 Preload safety style to prevent flash
-    const preloadStyle = document.createElement('style');
-    preloadStyle.textContent = `
-      #chatbox {
-        display: none;
-      }
-    `;
-    shadow.appendChild(preloadStyle);
-
     // ✅ Chatbox structure
     shadow.innerHTML += `
       <div id="launcher">💬</div>
