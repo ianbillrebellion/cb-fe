@@ -43,17 +43,27 @@
             session_id: 'rebellion-session-1'
           })
         });
-
-        const data = await res.json();
-        console.log('[chatbot] Raw AI reply:', data); // <== ✅ Add this line
+      
+        console.log('[chatbot] Status:', res.status);
+        const raw = await res.text();
+        console.log('[chatbot] Raw response:', raw);
+      
+        let data;
+        try {
+          data = JSON.parse(raw);
+        } catch (err) {
+          console.warn('[chatbot] Failed to parse JSON. Raw was:', raw);
+          data = { reply: 'Invalid response from server.' };
+        }
+      
         removeTyping();
         appendMessage(data.reply || 'No response.', 'bot');
+      
       } catch (err) {
         removeTyping();
         appendMessage('Error contacting AI agent.', 'bot');
         console.error(err);
       }
-    }
 
     sendBtn.addEventListener('click', sendMessage);
     input.addEventListener('keydown', (e) => {
