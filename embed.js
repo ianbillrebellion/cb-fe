@@ -60,9 +60,28 @@ class RebellionChatbot extends HTMLElement {
       const refreshBtn = shadow.querySelector('#refreshBtn');
       const messages = shadow.querySelector('#messages');
 
+      let hasStarted = false;
+
       launcher.addEventListener('click', () => {
         chatbox.classList.toggle('visible');
         chatbox.classList.toggle('hidden');
+
+        // Run this ONLY when chat is first opened
+        if (!hasStarted && chatbox.classList.contains('visible')) {
+          const input = shadow.querySelector('#userInput');
+
+          if (input) {
+            const sendMessage = () => {
+              const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+              input.value = 'getStarted';
+              input.dispatchEvent(enterEvent);
+              hasStarted = true;
+            };
+
+            // Delay to let chat.js load
+            setTimeout(sendMessage, 200);
+          }
+        }
       });
 
       closeBtn?.addEventListener('click', () => {
@@ -70,9 +89,10 @@ class RebellionChatbot extends HTMLElement {
         chatbox.classList.add('hidden');
       });
 
-      refreshBtn?.addEventListener('click', () => {
-        messages.innerHTML = '';
-      });
+refreshBtn?.addEventListener('click', () => {
+  messages.innerHTML = '';
+});
+
     }, 100);
   }
 }
