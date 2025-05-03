@@ -6,7 +6,7 @@ class RebellionChatbot extends HTMLElement {
     // Add chatbox structure
     shadow.innerHTML = `
       <div id="launcher">💬</div>
-      <div id="chatbox" style="display: none;">
+      <div id="chatbox"
         <div id="chatHeader">
           Rebellion AI
           <div class="controls">
