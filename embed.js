@@ -3,8 +3,17 @@ class RebellionChatbot extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
 
-    // Add chatbox structure
-    shadow.innerHTML = `
+    // 🔒 Preload safety style to prevent flash
+    const preloadStyle = document.createElement('style');
+    preloadStyle.textContent = `
+      #chatbox {
+        display: none;
+      }
+    `;
+    shadow.appendChild(preloadStyle);
+
+    // ✅ Chatbox structure
+    shadow.innerHTML += `
       <div id="launcher">💬</div>
       <div id="chatbox" class="hidden">
         <div id="chatHeader">
@@ -22,21 +31,27 @@ class RebellionChatbot extends HTMLElement {
       </div>
     `;
 
-    // Attach CSS
+    // ✅ Attach CSS
     const style = document.createElement('link');
     style.rel = 'stylesheet';
     style.href = 'https://velvety-pony-26f793.netlify.app/style.css';
     shadow.appendChild(style);
 
-    // Toggle chat open/close with animation class
+    // ✅ Load chat logic (e.g. sendMessage, etc.)
+    const script = document.createElement('script');
+    script.src = 'https://velvety-pony-26f793.netlify.app/chat.js';
+    script.type = 'module';
+    shadow.appendChild(script);
+
+    // ✅ Event handling
     setTimeout(() => {
       const launcher = shadow.querySelector('#launcher');
       const chatbox = shadow.querySelector('#chatbox');
       const closeBtn = shadow.querySelector('#closeBtn');
       const refreshBtn = shadow.querySelector('#refreshBtn');
       const messages = shadow.querySelector('#messages');
-    
-      // Toggle open/close from launcher icon
+
+      // Launcher toggle
       launcher.addEventListener('click', () => {
         if (chatbox.classList.contains('visible')) {
           chatbox.classList.remove('visible');
@@ -45,19 +60,19 @@ class RebellionChatbot extends HTMLElement {
           chatbox.classList.remove('hidden');
           chatbox.classList.add('visible');
         }
-      });  
-    
-      // Refresh button clears all messages
+      });
+
+      // Close button
+      closeBtn?.addEventListener('click', () => {
+        chatbox.classList.remove('visible');
+        chatbox.classList.add('hidden');
+      });
+
+      // Refresh button
       refreshBtn?.addEventListener('click', () => {
         messages.innerHTML = '';
       });
     }, 100);
- 
-    // Load chatbot logic
-    const script = document.createElement('script');
-    script.src = 'https://velvety-pony-26f793.netlify.app/chat.js';
-    script.type = 'module';
-    shadow.appendChild(script);
   }
 }
 
