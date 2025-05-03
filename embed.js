@@ -22,11 +22,14 @@ class RebellionChatbot extends HTMLElement {
       shadow.appendChild(style);
   
       // Toggle chatbox open/close
+    setTimeout(() => {
       const launcher = shadow.querySelector('#launcher');
       const chatbox = shadow.querySelector('#chatbox');
+  
       launcher.addEventListener('click', () => {
-        chatbox.style.display = chatbox.style.display === 'none' ? 'flex' : 'none';
+        chatbox.classList.toggle('visible');
       });
+    }, 100);
   
       // Load chat logic
       const script = document.createElement('script');

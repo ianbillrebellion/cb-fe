@@ -99,3 +99,28 @@ button {
   font-size: 14px;
   cursor: pointer;
 }
+
+#chatbox {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 320px;
+  height: 420px;
+  background: #1e1e1e;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+  overflow: hidden;
+  transform: scale(0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+#chatbox.visible {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
