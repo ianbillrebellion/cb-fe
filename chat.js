@@ -33,6 +33,8 @@
       const text = input.value.trim();
       if (!text) return;
 
+      console.log('[chatbot] Sending message:', text); // ✅ Add this line here
+
       appendMessage(text, 'user');
       input.value = '';
       appendMessage('Typing...', 'bot', true);
