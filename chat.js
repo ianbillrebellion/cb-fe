@@ -28,7 +28,7 @@
       const text = input.value.trim();
       if (!text) return;
 
-      console.log('[chatbot] Sending message:', text); // ✅ Confirming it's firing
+      console.log('[chatbot] Sending message:', text);
 
       appendMessage(text, 'user');
       input.value = '';
@@ -43,11 +43,11 @@
             session_id: 'rebellion-session-1'
           })
         });
-      
+
         console.log('[chatbot] Status:', res.status);
         const raw = await res.text();
         console.log('[chatbot] Raw response:', raw);
-      
+
         let data;
         try {
           data = JSON.parse(raw);
@@ -55,15 +55,16 @@
           console.warn('[chatbot] Failed to parse JSON. Raw was:', raw);
           data = { reply: 'Invalid response from server.' };
         }
-      
+
         removeTyping();
         appendMessage(data.reply || 'No response.', 'bot');
-      
+
       } catch (err) {
         removeTyping();
         appendMessage('Error contacting AI agent.', 'bot');
         console.error(err);
       }
+    }
 
     sendBtn.addEventListener('click', sendMessage);
     input.addEventListener('keydown', (e) => {
