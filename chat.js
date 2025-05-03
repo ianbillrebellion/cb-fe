@@ -52,7 +52,7 @@
         removeTyping();
         let replyText = typeof data.reply === 'string' 
           ? data.reply 
-          : data.reply?.output || 'No response.';
+          : data.reply?.output || data[0]?.output || 'No response.';
         appendMessage(replyText, 'bot');
 
       } catch (err) {
