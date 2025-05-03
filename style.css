@@ -3,6 +3,35 @@
   all: initial;
 }
 
+#chatHeader {
+  background: #1173BA;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+#chatHeader .controls {
+  display: flex;
+  gap: 8px;
+}
+
+#chatHeader button {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+#chatHeader button:hover {
+  opacity: 0.7;
+}
+
 /* Chat launcher */
 #launcher {
   position: fixed;
