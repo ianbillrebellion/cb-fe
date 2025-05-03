@@ -1,5 +1,5 @@
 (function () {
-  const shadowRoot = document.currentScript.getRootNode();
+  const shadowRoot = document.querySelector('rebellion-chatbot')?.shadowRoot;
 
   const waitForElements = () => {
     const input = shadowRoot.querySelector('#userInput');
