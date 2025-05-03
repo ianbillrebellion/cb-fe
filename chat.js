@@ -45,6 +45,7 @@
         });
 
         const data = await res.json();
+        console.log('[chatbot] Raw AI reply:', data); // <== ✅ Add this line
         removeTyping();
         appendMessage(data.reply || 'No response.', 'bot');
       } catch (err) {
