@@ -1,21 +1,16 @@
-(function () {
-  const shadowRoot = document.querySelector('rebellion-chatbot')?.shadowRoot;
+(function waitUntilReady() {
+  const root = document.querySelector('rebellion-chatbot')?.shadowRoot;
+  const input = root?.querySelector('#userInput');
+  const sendBtn = root?.querySelector('#sendBtn');
+  const messages = root?.querySelector('#messages');
 
-  const waitForElements = () => {
-    const input = shadowRoot.querySelector('#userInput');
-    const sendBtn = shadowRoot.querySelector('#sendBtn');
-    const messages = shadowRoot.querySelector('#messages');
+  if (root && input && sendBtn && messages) {
+    initChat(input, sendBtn, messages);
+  } else {
+    requestAnimationFrame(waitUntilReady); // keep checking until ready
+  }
 
-    if (input && sendBtn && messages) {
-      // We’re ready to roll
-      initChat(input, sendBtn, messages);
-      return true;
-    }
-
-    return false;
-  };
-
-  const initChat = (input, sendBtn, messages) => {
+  function initChat(input, sendBtn, messages) {
     function appendMessage(text, sender, isTyping = false) {
       const msg = document.createElement('div');
       msg.className = `msg ${sender}`;
@@ -33,7 +28,7 @@
       const text = input.value.trim();
       if (!text) return;
 
-      console.log('[chatbot] Sending message:', text); // ✅ Add this line here
+      console.log('[chatbot] Sending message:', text); // ✅ Confirming it's firing
 
       appendMessage(text, 'user');
       input.value = '';
@@ -63,14 +58,5 @@
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
-  };
-
-  // Watch for the chatbox content to be injected
-  const observer = new MutationObserver(() => {
-    if (waitForElements()) {
-      observer.disconnect();
-    }
-  });
-
-  observer.observe(shadowRoot, { childList: true, subtree: true });
+  }
 })();
