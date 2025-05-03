@@ -3,6 +3,15 @@ class RebellionChatbot extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
 
+    // 🔒 Temporary anti-flash style (removed on first frame)
+    const preloadStyle = document.createElement('style');
+    preloadStyle.textContent = `
+      #chatbox {
+        display: none !important;
+      }
+    `;
+    shadow.appendChild(preloadStyle);
+
     // ✅ Chatbox structure
     shadow.innerHTML += `
       <div id="launcher">💬</div>
@@ -21,6 +30,11 @@ class RebellionChatbot extends HTMLElement {
         </div>
       </div>
     `;
+
+    // 🧼 Remove preload blocker after first paint
+    requestAnimationFrame(() => {
+      shadow.removeChild(preloadStyle);
+  });
 
     // ✅ Attach CSS
     const style = document.createElement('link');
