@@ -7,7 +7,7 @@
   if (root && input && sendBtn && messages) {
     initChat(input, sendBtn, messages);
   } else {
-    requestAnimationFrame(waitUntilReady); // keep checking until ready
+    requestAnimationFrame(waitUntilReady);
   }
 
   function initChat(input, sendBtn, messages) {
@@ -45,16 +45,9 @@
         });
 
         console.log('[chatbot] Status:', res.status);
-        const raw = await res.text();
-        console.log('[chatbot] Raw response:', raw);
+        const data = await res.json(); // ✅ Directly parse JSON
 
-        let data;
-        try {
-          data = JSON.parse(raw);
-        } catch (err) {
-          console.warn('[chatbot] Failed to parse JSON. Raw was:', raw);
-          data = { reply: 'Invalid response from server.' };
-        }
+        console.log('[chatbot] Parsed response:', data);
 
         removeTyping();
         appendMessage(data.reply || 'No response.', 'bot');
@@ -62,7 +55,7 @@
       } catch (err) {
         removeTyping();
         appendMessage('Error contacting AI agent.', 'bot');
-        console.error(err);
+        console.error('[chatbot] Error:', err);
       }
     }
 
