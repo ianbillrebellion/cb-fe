@@ -153,3 +153,21 @@ button {
   opacity: 0;
   pointer-events: none;
 }
+
+.chat-button {
+  background: #2c2c2c;
+  color: #C6FF00;
+  border: 1px solid #444;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin: 6px 4px 0 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.chat-button:hover {
+  background: #1173BA;
+  color: white;
+  border-color: #1173BA;
+}

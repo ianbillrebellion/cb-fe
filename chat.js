@@ -11,6 +11,15 @@
   }
 
   function initChat(input, sendBtn, messages) {
+    const buttonTemplates = {
+      mainMenu: [
+        "Learn about Rebellion Websites and our services",
+        "Sign up to our upcoming newsletter",
+        "Contact Rebellion Websites"
+      ],
+      yesNo: ["Yes", "No"],
+      learnOptions: ["Websites", "AI Chatbots", "Custom Software"]
+    };   
     function appendMessage(text, sender, isTyping = false) {
       const msg = document.createElement('div');
       msg.className = `msg ${sender}`;
@@ -19,6 +28,29 @@
       messages.appendChild(msg);
       messages.scrollTop = messages.scrollHeight;
     }
+    function appendButtons(options) {
+      // Remove any old buttons
+      messages.querySelectorAll(".chat-button").forEach(btn => btn.remove());
+    
+      // If options is a template name, resolve it
+      if (typeof options === "string" && buttonTemplates[options]) {
+        options = buttonTemplates[options];
+      }
+    
+      if (Array.isArray(options)) {
+        options.forEach(option => {
+          const button = document.createElement("button");
+          button.className = "chat-button";
+          button.textContent = option;
+          button.onclick = () => {
+            appendMessage(option, 'user');
+            removeTyping();
+            sendMessage(option);
+          };
+          messages.appendChild(button);
+        });
+      }
+    }    
 
     function removeTyping() {
       messages.querySelectorAll('[data-typing="true"]').forEach(el => el.remove());
@@ -33,6 +65,9 @@
       if (!suppressUser) appendMessage(text, 'user');
       input.value = '';
       appendMessage('Typing...', 'bot', true);
+      if (data.options) {
+        appendButtons(data.options);
+      }     
 
       try {
         const res = await fetch('https://autom8.rebellionwebsites.com/webhook-test/f7db3ac1-8e20-4e47-bf05-36f66ded98bf', {
