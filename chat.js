@@ -78,25 +78,30 @@
             session_id: 'rebellion-session-1'
           })
         });
-
+      
         console.log('[chatbot] Status:', res.status);
         const data = await res.json();
-
         console.log('[chatbot] Parsed response:', data);
-
+      
         removeTyping();
+      
         let replyText = typeof data.reply === 'string' 
           ? data.reply 
           : data.reply?.output || data[0]?.output || 'No response.';
+          
         appendMessage(replyText, 'bot');
-
+      
+        // ✅ MOVE THIS INSIDE THE try block
+        if (data.options) {
+          appendButtons(data.options);
+        }
+      
       } catch (err) {
         removeTyping();
         appendMessage('Error contacting AI agent.', 'bot');
         console.error('[chatbot] Error:', err);
       }
-    }
-
+      
     sendBtn.addEventListener('click', () => sendMessage());
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
